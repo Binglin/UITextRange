@@ -30,7 +30,8 @@ static NSString * const _UITextViewTextKey     = @"text";
 - (void)managerView:(UITextView *)view{
     
     self.textView = view;
-    
+    [self computeLength];
+
     self.proxyDelegate = view.delegate;
     self.textView.delegate = self;
     
@@ -47,8 +48,10 @@ static NSString * const _UITextViewTextKey     = @"text";
 }
 
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text{
-    //range.length == 0表示删除文本
-    if (textView.currentLength >= textView.maxLength && textView.markedTextRange == nil && range.length == 0){
+    //range.length == 0,表示输入更多， range.length == 1则表示删除
+    
+    /* 如果仅输入到剩最后一个文字 用英文的九宫格快速切换 下面代码返回NO */
+    if (textView.currentLength > textView.maxLength && textView.markedTextRange == nil && range.length == 0){
         return NO;
     }
     
@@ -86,8 +89,14 @@ static NSString * const _UITextViewTextKey     = @"text";
     // 有高亮的内容
     else{
         UITextRange *markedTextRange = self.textView.markedTextRange;
-        UITextRange *inputedTextRange= [self.textView textRangeFromPosition:self.textView.beginningOfDocument toPosition:markedTextRange.start];
-        _text = [self.textView textInRange:inputedTextRange];
+        
+        UITextRange *inputedStartTextRange= [self.textView textRangeFromPosition:self.textView.beginningOfDocument toPosition:markedTextRange.start];
+        UITextRange *inputedEndTextRange = [self.textView textRangeFromPosition:markedTextRange.end toPosition:self.textView.endOfDocument];
+        
+        _text = [self.textView textInRange:inputedStartTextRange];
+        NSString *tail = [self.textView textInRange:inputedEndTextRange];
+        _text = [NSString stringWithFormat:@"%@%@",_text, tail.length ? tail : @""];
+        NSLog(@"%@--%@",_text, tail);
     }
     
     __block NSInteger _textComposedLength = 0;
@@ -104,13 +113,17 @@ static NSString * const _UITextViewTextKey     = @"text";
     self.textView.currentLength = _textComposedLength;
     
     if (_textCharactorLength < _text.length) {
+
+        UITextRange *range = _textView.selectedTextRange;
         self.textView.text = [_text substringWithRange:NSMakeRange(0, _textCharactorLength)];
+        self.textView.selectedTextRange = range;
+        
     }
     [self updatePlaceholder];
 }
 
 - (void)updatePlaceholder{
-    self.textView.placeholderView.hidden = (self.textView.currentLength == 0) ? NO: YES;
+    self.textView.placeholderView.hidden = (self.textView.currentLength == 0 && (self.textView.text.length == 0)) ? NO: YES;
 }
 
 @end

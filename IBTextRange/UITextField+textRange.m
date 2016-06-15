@@ -30,9 +30,9 @@ static NSString * const _UITextFieldTextKey     = @"text";
 
 - (void)managerView:(UITextField *)txtField{
     
-    self.field.delegate = self;
     self.field = txtField;
     self.proxyDelegate = txtField.delegate;
+    self.field.delegate = self;
     
     [txtField addObserver:self forKeyPath:_UITextFieldTextKey options:NSKeyValueObservingOptionNew context:nil];
     [txtField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
@@ -47,7 +47,12 @@ static NSString * const _UITextFieldTextKey     = @"text";
 #pragma mark - UITextFieldDelegate
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
     
-    //range.length == 0表示删除文本
+    if (range.length == 1) {
+        return YES;
+    }
+    
+    //range.length == 0,表示输入更多， range.length == 1则表示删除
+    /* 如果仅输入到剩最后一个文字 用英文的九宫格快速切换 下面代码返回NO*/
     if (textField.currentLength >= textField.maxLength && textField.markedTextRange == nil && range.length == 0){
         return NO;
     }
@@ -78,6 +83,8 @@ static NSString * const _UITextFieldTextKey     = @"text";
 #pragma mark -
 - (void)computeLength{
     
+    NSLog(@"change: %@", self.field.text);
+    
     NSString *_text ;
     
     //没有高亮的内容
@@ -87,8 +94,14 @@ static NSString * const _UITextFieldTextKey     = @"text";
     // 有高亮的内容
     else{
         UITextRange *markedTextRange = self.field.markedTextRange;
-        UITextRange *inputedTextRange= [self.field textRangeFromPosition:self.field.beginningOfDocument toPosition:markedTextRange.start];
-        _text = [self.field textInRange:inputedTextRange];
+        
+        UITextRange *inputedStartTextRange= [self.field textRangeFromPosition:self.field.beginningOfDocument toPosition:markedTextRange.start];
+        UITextRange *inputedEndTextRange = [self.field textRangeFromPosition:markedTextRange.end toPosition:self.field.endOfDocument];
+        
+        _text = [self.field textInRange:inputedStartTextRange];
+        NSString *tail = [self.field textInRange:inputedEndTextRange];
+        
+        _text = [NSString stringWithFormat:@"%@%@",_text, tail.length ? tail : @""];
     }
     
     __block NSInteger _textComposedLength = 0;
@@ -105,7 +118,10 @@ static NSString * const _UITextFieldTextKey     = @"text";
     self.field.currentLength = _textComposedLength;
     
     if (_textCharactorLength < _text.length) {
+        
+        UITextRange *range = _field.selectedTextRange;
         self.field.text = [_text substringWithRange:NSMakeRange(0, _textCharactorLength)];
+        self.field.selectedTextRange = range;
     }
 }
 

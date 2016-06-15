@@ -12,7 +12,6 @@
 		4556D4241CD8EE4000533EF6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4556D4161CD8EE4000533EF6 /* LaunchScreen.storyboard */; };
 		4556D4251CD8EE4000533EF6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4556D4181CD8EE4000533EF6 /* Main.storyboard */; };
 		4556D4261CD8EE4000533EF6 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4556D41A1CD8EE4000533EF6 /* Info.plist */; };
-		4556D4271CD8EE4000533EF6 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 4556D41B1CD8EE4000533EF6 /* README.md */; };
 		4556D4281CD8EE4000533EF6 /* UITextField+textRange.m in Sources */ = {isa = PBXBuildFile; fileRef = 4556D41D1CD8EE4000533EF6 /* UITextField+textRange.m */; };
 		4556D4291CD8EE4000533EF6 /* UITextView+textRange.m in Sources */ = {isa = PBXBuildFile; fileRef = 4556D4201CD8EE4000533EF6 /* UITextView+textRange.m */; };
 		4556D42A1CD8EE4000533EF6 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4556D4211CD8EE4000533EF6 /* ViewController.swift */; };
@@ -24,7 +23,6 @@
 		4556D4171CD8EE4000533EF6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		4556D4191CD8EE4000533EF6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		4556D41A1CD8EE4000533EF6 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		4556D41B1CD8EE4000533EF6 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		4556D41C1CD8EE4000533EF6 /* UITextField+textRange.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITextField+textRange.h"; sourceTree = "<group>"; };
 		4556D41D1CD8EE4000533EF6 /* UITextField+textRange.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITextField+textRange.m"; sourceTree = "<group>"; };
 		4556D41E1CD8EE4000533EF6 /* IBTextRange-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "IBTextRange-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -53,7 +51,6 @@
 				4556D4161CD8EE4000533EF6 /* LaunchScreen.storyboard */,
 				4556D4181CD8EE4000533EF6 /* Main.storyboard */,
 				4556D41A1CD8EE4000533EF6 /* Info.plist */,
-				4556D41B1CD8EE4000533EF6 /* README.md */,
 				4556D41C1CD8EE4000533EF6 /* UITextField+textRange.h */,
 				4556D41D1CD8EE4000533EF6 /* UITextField+textRange.m */,
 				4556D41E1CD8EE4000533EF6 /* IBTextRange-Bridging-Header.h */,
@@ -155,7 +152,6 @@
 				4556D42A1CD8EE4000533EF6 /* ViewController.swift in Sources */,
 				4556D4291CD8EE4000533EF6 /* UITextView+textRange.m in Sources */,
 				4556D4281CD8EE4000533EF6 /* UITextField+textRange.m in Sources */,
-				4556D4271CD8EE4000533EF6 /* README.md in Sources */,
 				4556D4221CD8EE4000533EF6 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -272,7 +268,8 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				INFOPLIST_FILE = "$(SRCROOT)/../../../../Downloads/UITextInputConstraits/UITextInputConstraits/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/IBTextRange/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = IB.UITextRange;
 				PRODUCT_NAME = IBTextRange;
@@ -289,7 +286,8 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				INFOPLIST_FILE = "$(SRCROOT)/../../../../Downloads/UITextInputConstraits/UITextInputConstraits/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/IBTextRange/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = IB.UITextRange;
 				PRODUCT_NAME = IBTextRange;
