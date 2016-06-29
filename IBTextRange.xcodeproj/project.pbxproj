@@ -12,9 +12,9 @@
 		4556D4241CD8EE4000533EF6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4556D4161CD8EE4000533EF6 /* LaunchScreen.storyboard */; };
 		4556D4251CD8EE4000533EF6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4556D4181CD8EE4000533EF6 /* Main.storyboard */; };
 		4556D4261CD8EE4000533EF6 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4556D41A1CD8EE4000533EF6 /* Info.plist */; };
-		4556D4281CD8EE4000533EF6 /* UITextField+textRange.m in Sources */ = {isa = PBXBuildFile; fileRef = 4556D41D1CD8EE4000533EF6 /* UITextField+textRange.m */; };
-		4556D4291CD8EE4000533EF6 /* UITextView+textRange.m in Sources */ = {isa = PBXBuildFile; fileRef = 4556D4201CD8EE4000533EF6 /* UITextView+textRange.m */; };
 		4556D42A1CD8EE4000533EF6 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4556D4211CD8EE4000533EF6 /* ViewController.swift */; };
+		45808DAC1D2403E900B3FB23 /* UITextField+textRange.m in Sources */ = {isa = PBXBuildFile; fileRef = 45808DA91D2403E900B3FB23 /* UITextField+textRange.m */; };
+		45808DAD1D2403E900B3FB23 /* UITextView+textRange.m in Sources */ = {isa = PBXBuildFile; fileRef = 45808DAB1D2403E900B3FB23 /* UITextView+textRange.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -23,12 +23,12 @@
 		4556D4171CD8EE4000533EF6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		4556D4191CD8EE4000533EF6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		4556D41A1CD8EE4000533EF6 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		4556D41C1CD8EE4000533EF6 /* UITextField+textRange.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITextField+textRange.h"; sourceTree = "<group>"; };
-		4556D41D1CD8EE4000533EF6 /* UITextField+textRange.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITextField+textRange.m"; sourceTree = "<group>"; };
 		4556D41E1CD8EE4000533EF6 /* IBTextRange-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "IBTextRange-Bridging-Header.h"; sourceTree = "<group>"; };
-		4556D41F1CD8EE4000533EF6 /* UITextView+textRange.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITextView+textRange.h"; sourceTree = "<group>"; };
-		4556D4201CD8EE4000533EF6 /* UITextView+textRange.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITextView+textRange.m"; sourceTree = "<group>"; };
 		4556D4211CD8EE4000533EF6 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		45808DA81D2403E900B3FB23 /* UITextField+textRange.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITextField+textRange.h"; sourceTree = "<group>"; };
+		45808DA91D2403E900B3FB23 /* UITextField+textRange.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITextField+textRange.m"; sourceTree = "<group>"; };
+		45808DAA1D2403E900B3FB23 /* UITextView+textRange.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITextView+textRange.h"; sourceTree = "<group>"; };
+		45808DAB1D2403E900B3FB23 /* UITextView+textRange.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITextView+textRange.m"; sourceTree = "<group>"; };
 		D41904DA1C7EB340007A58D9 /* IBTextRange.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IBTextRange.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -51,12 +51,20 @@
 				4556D4161CD8EE4000533EF6 /* LaunchScreen.storyboard */,
 				4556D4181CD8EE4000533EF6 /* Main.storyboard */,
 				4556D41A1CD8EE4000533EF6 /* Info.plist */,
-				4556D41C1CD8EE4000533EF6 /* UITextField+textRange.h */,
-				4556D41D1CD8EE4000533EF6 /* UITextField+textRange.m */,
 				4556D41E1CD8EE4000533EF6 /* IBTextRange-Bridging-Header.h */,
-				4556D41F1CD8EE4000533EF6 /* UITextView+textRange.h */,
-				4556D4201CD8EE4000533EF6 /* UITextView+textRange.m */,
 				4556D4211CD8EE4000533EF6 /* ViewController.swift */,
+				45808DA71D2403E900B3FB23 /* IBTextRange */,
+			);
+			path = IBTextRange;
+			sourceTree = "<group>";
+		};
+		45808DA71D2403E900B3FB23 /* IBTextRange */ = {
+			isa = PBXGroup;
+			children = (
+				45808DA81D2403E900B3FB23 /* UITextField+textRange.h */,
+				45808DA91D2403E900B3FB23 /* UITextField+textRange.m */,
+				45808DAA1D2403E900B3FB23 /* UITextView+textRange.h */,
+				45808DAB1D2403E900B3FB23 /* UITextView+textRange.m */,
 			);
 			path = IBTextRange;
 			sourceTree = "<group>";
@@ -149,9 +157,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				45808DAD1D2403E900B3FB23 /* UITextView+textRange.m in Sources */,
+				45808DAC1D2403E900B3FB23 /* UITextField+textRange.m in Sources */,
 				4556D42A1CD8EE4000533EF6 /* ViewController.swift in Sources */,
-				4556D4291CD8EE4000533EF6 /* UITextView+textRange.m in Sources */,
-				4556D4281CD8EE4000533EF6 /* UITextField+textRange.m in Sources */,
 				4556D4221CD8EE4000533EF6 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
