@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "IBTextRange"
-  s.version      = "0.0.3"
+  s.version      = "1.0.0"
   s.summary      = "UITextView and UITextField category of a property of maxLength . UITextView has a property called placeholder"
   s.homepage     = "https://github.com/Binglin/UITextRange"
   s.license      = { :type => "MIT", :file => "LICENSE.md" }
