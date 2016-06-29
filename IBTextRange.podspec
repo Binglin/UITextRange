@@ -6,7 +6,7 @@ Pod::Spec.new do |s|
   s.homepage     = "https://github.com/Binglin/UITextRange"
   s.license      = { :type => "MIT", :file => "LICENSE.md" }
   s.author             = { "冰琳" => "269042025@qq.com" }
-  s.ios.deloyment_target = '6.0'
+  s.ios.deployment_target = '6.0'
   s.source       = { :git => "https://github.com/Binglin/UITextRange.git", :tag => s.version }
   s.source_files  = "IBTextRange"
   s.requires_arc = true
