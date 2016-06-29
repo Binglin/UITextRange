@@ -17,14 +17,15 @@ static NSString * const _UITextViewTextKey     = @"text";
 
 @property (nonatomic, assign) id<UITextViewDelegate> proxyDelegate;
 @property (nonatomic, assign) UITextView * textView;
+@property (nonatomic, copy  ) TextViewLengthChangeBlock lengthChangeBlock;
 
 @end
 
 @implementation UITextViewProxy
 
 - (void)dealloc{
-    [self.textView removeObserver:self forKeyPath:_UITextViewDelegateKey];
     [self.textView removeObserver:self forKeyPath:_UITextViewTextKey];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UITextViewTextDidChangeNotification object:self.textView];
 }
 
 - (void)managerView:(UITextView *)view{
@@ -36,14 +37,11 @@ static NSString * const _UITextViewTextKey     = @"text";
     self.textView.delegate = self;
     
     [view addObserver:self forKeyPath:_UITextViewTextKey options:NSKeyValueObservingOptionNew context:nil];
-    [view addObserver:self forKeyPath:_UITextViewDelegateKey options:NSKeyValueObservingOptionNew context:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(proxy_textViewDidChange:) name:UITextViewTextDidChangeNotification object:view];
 }
 
 #pragma mark - UITextViewDelegate
-- (void)textViewDidChange:(UITextView *)textView{
-    if ([self.proxyDelegate respondsToSelector:@selector(textViewDidChange:)]) {
-        [self.proxyDelegate textViewDidChange:textView];
-    }
+- (void)proxy_textViewDidChange:(UITextView *)textView{
     [self computeLength];
 }
 
@@ -142,6 +140,18 @@ static NSString * const _UITextViewTextKey     = @"text";
     [self getPlaceholderView].frame = self.bounds;
 }
 
+- (void)observerTextLengthChanged:(TextViewLengthChangeBlock)length{
+    [self proxy].lengthChangeBlock = length;
+    
+    //在添加KVO前就设置好text了 则currentLength会不正确 fix by:
+    self.currentLength = self.currentLength;
+}
+
+- (void)_updateRemainLength{
+    if ([self proxy].lengthChangeBlock) {
+        [self proxy].lengthChangeBlock(self.currentLength);
+    }
+}
 
 #pragma mark - property
 - (UITextViewProxy *)proxy{
@@ -167,6 +177,7 @@ static NSString * const _UITextViewTextKey     = @"text";
 - (void)setMaxLength:(NSInteger)maxLength{
     objc_setAssociatedObject(self, @selector(maxLength), @(maxLength), OBJC_ASSOCIATION_RETAIN);
     [self proxy];
+    [self _updateRemainLength];
 }
 
 - (NSInteger)minLength{
@@ -179,9 +190,8 @@ static NSString * const _UITextViewTextKey     = @"text";
 
 #pragma mark -
 - (void)setCurrentLength:(NSInteger)currentLength{
-    [self willChangeValueForKey:NSStringFromSelector(@selector(currentLength))];
     objc_setAssociatedObject(self, @selector(currentLength), @(currentLength), OBJC_ASSOCIATION_RETAIN);
-    [self didChangeValueForKey:NSStringFromSelector(@selector(currentLength))];
+    [self _updateRemainLength];
 }
 
 - (NSInteger)currentLength{
@@ -223,6 +233,7 @@ static NSString * const _UITextViewTextKey     = @"text";
 
 #pragma mark -
 - (NSInteger)getRemainTextLength{
+    //[[self proxy] computeLength];
     return self.maxLength - self.currentLength;
 }
 

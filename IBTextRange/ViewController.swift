@@ -20,31 +20,27 @@ class ViewController: UIViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.field.addObserver(self, forKeyPath: "currentLength", options: NSKeyValueObservingOptions.New, context: nil)
+        self.field.text = "123"
+        self.textView.text = "1"
         
-        self.textView.addObserver(self, forKeyPath: "currentLength", options: NSKeyValueObservingOptions.New, context: nil)
-
-    }
-
-
-    
-    override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
-        if keyPath == "currentLength" {
-            if object is UITextField{
-                let _field = object as! UITextField
-                self.textfieldRemainText.text = "(" + "\(_field.getRemainTextLength())" + ")"
-            }else if object is UITextView{
-                let _tView = object as! UITextView
-                self.textViewRemainLabel.text = "(" + "\(_tView.getRemainTextLength())" + ")"
-            }
+        self.textView.observerTextLengthChanged {[unowned self] (le) in
+            print("lenght change")
+            self.textViewRemainLabel.text = "(" + "\(self.textView.getRemainTextLength())" + ")"
+            
         }
+        self.field.observerTextLengthChanged {[unowned self] (len) in
+            self.textfieldRemainText.text = "(" + "\(self.field.getRemainTextLength())" + ")"
+        }
+        
+        self.textView.placeholder = "请输入"
+        self.textView.maxLength = 30;
+        
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
 
 }
 

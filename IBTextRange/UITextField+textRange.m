@@ -17,6 +17,8 @@ static NSString * const _UITextFieldTextKey     = @"text";
 
 @property (nonatomic, assign) id<UITextFieldDelegate> proxyDelegate;
 @property (nonatomic, assign) UITextField * field;
+@property (nonatomic, copy  ) TextFieldLengthChangeBlock lengthChangeBlock;
+
 
 @end
 
@@ -130,6 +132,19 @@ static NSString * const _UITextFieldTextKey     = @"text";
 #pragma mark - UITextField (max_text_length)
 @implementation UITextField (max_text_length)
 
+- (void)observerTextLengthChanged:(TextFieldLengthChangeBlock)length{
+    [self proxy].lengthChangeBlock = length;
+    
+    //在添加KVO前就设置好text了 则currentLength会不正确 fix by:
+    self.currentLength = self.currentLength;
+}
+
+- (void)_updateRemainLength{
+    if ([self proxy].lengthChangeBlock) {
+        [self proxy].lengthChangeBlock(self.currentLength);
+    }
+}
+
 #pragma mark - property
 - (UITextFieldProxy *)proxy{
     id _proxy = objc_getAssociatedObject(self, @selector(proxy));
@@ -154,6 +169,7 @@ static NSString * const _UITextFieldTextKey     = @"text";
 - (void)setMaxLength:(NSInteger)maxLength{
     objc_setAssociatedObject(self, @selector(maxLength), @(maxLength), OBJC_ASSOCIATION_RETAIN);
     [self proxy];
+    [self _updateRemainLength];
 }
 
 - (NSInteger)minLength{
@@ -166,9 +182,8 @@ static NSString * const _UITextFieldTextKey     = @"text";
 
 #pragma mark -
 - (void)setCurrentLength:(NSInteger)currentLength{
-    [self willChangeValueForKey:NSStringFromSelector(@selector(currentLength))];
     objc_setAssociatedObject(self, @selector(currentLength), @(currentLength), OBJC_ASSOCIATION_RETAIN);
-    [self didChangeValueForKey:NSStringFromSelector(@selector(currentLength))];
+    [self _updateRemainLength];
 }
 
 - (NSInteger)currentLength{
@@ -182,5 +197,7 @@ static NSString * const _UITextFieldTextKey     = @"text";
 - (BOOL)isTextValide{
     return self.currentLength >= self.minLength && self.currentLength <= self.maxLength;
 }
+
+
 
 @end
