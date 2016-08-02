@@ -27,3 +27,11 @@ textView.placeholder = "在此输入内容"
 
 
 
+
+
+
+## Install
+
+```
+pod 'IBTextRange', '~> 1.0.1'
+```
