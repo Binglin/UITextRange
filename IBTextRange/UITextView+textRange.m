@@ -32,7 +32,7 @@ static NSString * const _UITextViewTextKey     = @"text";
     
     self.textView = view;
     [self computeLength];
-
+    
     self.proxyDelegate = view.delegate;
     self.textView.delegate = self;
     
@@ -111,7 +111,7 @@ static NSString * const _UITextViewTextKey     = @"text";
     self.textView.currentLength = _textComposedLength;
     
     if (_textCharactorLength < _text.length) {
-
+        
         UITextRange *range = _textView.selectedTextRange;
         self.textView.text = [_text substringWithRange:NSMakeRange(0, _textCharactorLength)];
         self.textView.selectedTextRange = range;
@@ -132,7 +132,7 @@ static NSString * const _UITextViewTextKey     = @"text";
 
 /*
  * 可也用method swizzle
- * 不过发现在category中加入此方法也会被调用 
+ * 不过发现在category中加入此方法也会被调用
  * 说明UITextView中并没有实现此方法
  */
 - (void)layoutSubviews{
@@ -201,6 +201,7 @@ static NSString * const _UITextViewTextKey     = @"text";
 #pragma mark -
 - (void)setPlaceholder:(NSString *)placeholder{
     self.placeholderView.text = placeholder;
+    [self proxy];
 }
 
 - (NSString *)placeholder{
