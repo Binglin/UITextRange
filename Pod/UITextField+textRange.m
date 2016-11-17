@@ -17,7 +17,7 @@ static NSString * const _UITextFieldTextKey     = @"text";
 
 @property (nonatomic, assign) id<UITextFieldDelegate> proxyDelegate;
 @property (nonatomic, assign) UITextField * field;
-@property (nonatomic, copy  ) TextFieldLengthChangeBlock lengthChangeBlock;
+@property (nonatomic, copy  ) IBTextFieldLengthChangeBlock lengthChangeBlock;
 
 
 @end
@@ -43,7 +43,7 @@ static NSString * const _UITextFieldTextKey     = @"text";
 
 #pragma mark - action
 - (void)textFieldDidChange:(UITextField *)field{
-    [self computeLength];
+    [self ib_computeLength];
 }
 
 #pragma mark - UITextFieldDelegate
@@ -55,7 +55,7 @@ static NSString * const _UITextFieldTextKey     = @"text";
     
     //range.length == 0,表示输入更多， range.length == 1则表示删除
     /* 如果仅输入到剩最后一个文字 用英文的九宫格快速切换 下面代码返回NO*/
-    if (textField.currentLength >= textField.maxLength && textField.markedTextRange == nil && range.length == 0){
+    if (textField.ib_currentLength >= textField.ib_maxLength && textField.markedTextRange == nil && range.length == 0){
         return NO;
     }
     
@@ -78,12 +78,12 @@ static NSString * const _UITextFieldTextKey     = @"text";
             }
         }
     }else if ([keyPath isEqualToString:_UITextFieldTextKey]){
-        [self computeLength];
+        [self ib_computeLength];
     }
 }
 
 #pragma mark -
-- (void)computeLength{
+- (void)ib_computeLength{
     
     NSLog(@"change: %@", self.field.text);
     
@@ -111,13 +111,13 @@ static NSString * const _UITextFieldTextKey     = @"text";
     
     [_text enumerateSubstringsInRange:NSMakeRange(0, _text.length) options:NSStringEnumerationByComposedCharacterSequences usingBlock:^(NSString * _Nullable substring, NSRange substringRange, NSRange enclosingRange, BOOL * _Nonnull stop) {
         _textComposedLength += 1;
-        if (_textComposedLength == self.field.maxLength) {
+        if (_textComposedLength == self.field.ib_maxLength) {
             *stop = YES;
         }
         _textCharactorLength = substringRange.location + substringRange.length;
     }];
     
-    self.field.currentLength = _textComposedLength;
+    self.field.ib_currentLength = _textComposedLength;
     
     if (_textCharactorLength < _text.length) {
         
@@ -132,70 +132,70 @@ static NSString * const _UITextFieldTextKey     = @"text";
 #pragma mark - UITextField (max_text_length)
 @implementation UITextField (max_text_length)
 
-- (void)observerTextLengthChanged:(TextFieldLengthChangeBlock)length{
-    [self proxy].lengthChangeBlock = length;
+- (void)ib_observerTextLengthChanged:(IBTextFieldLengthChangeBlock)length{
+    [self ib_proxy].lengthChangeBlock = length;
     
     //在添加KVO前就设置好text了 则currentLength会不正确 fix by:
-    self.currentLength = self.currentLength;
+    self.ib_currentLength = self.ib_currentLength;
 }
 
-- (void)_updateRemainLength{
-    if ([self proxy].lengthChangeBlock) {
-        [self proxy].lengthChangeBlock(self.currentLength);
+- (void)_ib_updateRemainLength{
+    if ([self ib_proxy].lengthChangeBlock) {
+        [self ib_proxy].lengthChangeBlock(self.ib_currentLength);
     }
 }
 
 #pragma mark - property
-- (UITextFieldProxy *)proxy{
-    id _proxy = objc_getAssociatedObject(self, @selector(proxy));
+- (UITextFieldProxy *)ib_proxy{
+    id _proxy = objc_getAssociatedObject(self, @selector(ib_proxy));
     if (_proxy == nil) {
         _proxy = [UITextFieldProxy new];
-        [self setProxy:_proxy];
+        [self setIb_proxy:_proxy];
         [_proxy managerView:self];
     }
     return _proxy;
 }
 
-- (void)setProxy:(UITextFieldProxy *)proxy{
-    objc_setAssociatedObject(self, @selector(proxy), proxy, OBJC_ASSOCIATION_RETAIN);
+- (void)setIb_proxy:(UITextFieldProxy *)proxy{
+    objc_setAssociatedObject(self, @selector(ib_proxy), proxy, OBJC_ASSOCIATION_RETAIN);
 }
 
 #pragma mark -
-- (NSInteger)maxLength{
-    NSNumber *value = objc_getAssociatedObject(self, @selector(maxLength));
+- (NSInteger)ib_maxLength{
+    NSNumber *value = objc_getAssociatedObject(self, @selector(ib_maxLength));
     return value ? value.integerValue : NSNotFound;
 }
 
-- (void)setMaxLength:(NSInteger)maxLength{
-    objc_setAssociatedObject(self, @selector(maxLength), @(maxLength), OBJC_ASSOCIATION_RETAIN);
-    [self proxy];
-    [self _updateRemainLength];
+- (void)setIb_maxLength:(NSInteger)ib_maxLength{
+    objc_setAssociatedObject(self, @selector(ib_maxLength), @(ib_maxLength), OBJC_ASSOCIATION_RETAIN);
+    [self ib_proxy];
+    [self _ib_updateRemainLength];
 }
 
-- (NSInteger)minLength{
-    return [objc_getAssociatedObject(self, @selector(minLength)) integerValue];
+- (NSInteger)ib_minLength{
+    return [objc_getAssociatedObject(self, @selector(ib_minLength)) integerValue];
 }
 
-- (void)setMinLength:(NSInteger)minLength{
-    objc_setAssociatedObject(self, @selector(minLength), @(minLength), OBJC_ASSOCIATION_RETAIN);
+- (void)setIb_minLength:(NSInteger)ib_minLength{
+    objc_setAssociatedObject(self, @selector(ib_minLength), @(ib_minLength), OBJC_ASSOCIATION_RETAIN);
 }
 
 #pragma mark -
-- (void)setCurrentLength:(NSInteger)currentLength{
-    objc_setAssociatedObject(self, @selector(currentLength), @(currentLength), OBJC_ASSOCIATION_RETAIN);
-    [self _updateRemainLength];
+- (void)setIb_currentLength:(NSInteger)ib_currentLength{
+    objc_setAssociatedObject(self, @selector(ib_currentLength), @(ib_currentLength), OBJC_ASSOCIATION_RETAIN);
+    [self _ib_updateRemainLength];
 }
 
-- (NSInteger)currentLength{
-    return [objc_getAssociatedObject(self, @selector(currentLength)) integerValue];
+- (NSInteger)ib_currentLength{
+    return [objc_getAssociatedObject(self, @selector(ib_currentLength)) integerValue];
 }
 
 - (NSInteger)getRemainTextLength{
-    return self.maxLength - self.currentLength;
+    return self.ib_maxLength - self.ib_currentLength;
 }
 
 - (BOOL)isTextValide{
-    return self.currentLength >= self.minLength && self.currentLength <= self.maxLength;
+    return self.ib_currentLength >= self.ib_minLength && self.ib_currentLength <= self.ib_maxLength;
 }
 
 

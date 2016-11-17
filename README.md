@@ -11,18 +11,18 @@
 ##UITextField
 ``` 
 let field: UITextField
-field.maxLength = 10
+field.ib_maxLength = 10
 ```
 
 ###UITextView 所有属性均可在interface builder中设置 文本长度的变化可通过监听属性currentLength
 ```
 textView: UITextView
-textView.maxLength = 10
+textView.ib_maxLength = 10
 ```
 placeholder like UITextField
 
 ```
-textView.placeholder = "在此输入内容"
+textView.ib_placeholder = "在此输入内容"
 ```
 
 
@@ -33,5 +33,5 @@ textView.placeholder = "在此输入内容"
 ## Install
 
 ```
-pod 'IBTextRange', '~> 1.0.1'
+pod 'IBTextRange', '~> 1.0.2'
 ```
